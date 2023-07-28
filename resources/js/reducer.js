@@ -6,7 +6,8 @@ import application from './redux/application'
 import extra from './redux/extra'
 import insurance from './redux/insurance'
 import reservation from './redux/reservation'
-import carCategory from './redux/carCategory'
+import category from './redux/category'
+import activity from './redux/activity'
 import blockDate from './redux/blockDate'
 
 const reducer = combineReducers({
@@ -15,7 +16,8 @@ const reducer = combineReducers({
     extra,
     insurance,
     reservation,
-    carCategory,
+    category,
+    activity,
     blockDate
 })
 

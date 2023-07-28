@@ -3,24 +3,19 @@ import styled from "styled-components";
 import Table from "../common/CommonTable";
 import { Tag } from 'antd';
 import dayjs from "dayjs";
+import { borderRadius } from "../../../helper";
 
 const Container = styled.div`
     width: 50%;
     padding: 10px 20px;
     box-sizing: border-box;
     background-color: white;
-    border-radius: 6px;
-    box-shadow: 0px 0px 5px 0px #c6c6c6;
 
     .ant-empty {
         margin: 0px !important;
     }
 
     .title {
-        border-bottom: 1px solid #00000040;
-        padding: 10px 0px;
-        opacity: .7;
-
         h2 {
             display: inline-block;
             font-weight: bold;
@@ -28,6 +23,7 @@ const Container = styled.div`
 
         span {
             border: 1px solid #00000040;
+            border-radius: 6px;
             font-size: 18px;
             margin-left: 5px;
             padding: 0px 5px;
@@ -36,7 +32,7 @@ const Container = styled.div`
 
     th {
         font-weight: bold !important;
-        opacity: .7;
+        opacity: .6;
     }
 `;
 
@@ -46,32 +42,22 @@ function TableContainer({ title, loading, data, meta, handlePageChange, handleRo
         {
             title: 'ID',
             dataIndex: 'id',
-            render: (id) => <Tag color="purple">#{id}</Tag>,
+            render: (id) => <Tag color="blue">#{id}</Tag>,
         },
         {
-            title: 'VEÍCULO',
-            dataIndex: 'car',
-            render: (car) => car.category.title + " (" + car.registration + ")",
+            title: 'ATIVIDADE',
+            dataIndex: 'activity',
+            render: (activity) => activity.name.pt,
         },
         {
-            title: 'LEVANTAMENTO',
-            dataIndex: 'pickup_date',
-            render: (pickup, row) => dayjs(pickup).format("DD/MM/YYYY HH:mm") + "h, " + row.pickup_place,
-        },
-        {
-            title: 'ENTREGA',
-            dataIndex: 'return_date',
-            render: (return_date, row) => dayjs(return_date).format("DD/MM/YYYY HH:mm") + "h, " + row.return_place,
+            title: 'DATA',
+            dataIndex: 'date',
+            render: (date) => dayjs(date).format("DD/MM/YYYY HH:mm"),
         },
         {
             title: 'ESTADO',
             dataIndex: 'status',
             render: (status) => <Tag color={status == "pendente" ? "warning" : status == "confirmado" ? "success" : "error"}>{status}</Tag>,
-        },
-        {
-            title: 'PAGAMENTO',
-            dataIndex: 'payed_at',
-            render: (payed_at) => <Tag color={payed_at ? "success" : "warning"}>{payed_at ? "pago" : "pendente"}</Tag>,
         },
 
     ];

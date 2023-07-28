@@ -4,6 +4,9 @@ export const light = {
     primary: "#007078",
     primaryHover: "#007090",
     secundary: "#E4572E",
+    dashboardBackground: '#f8f5f0',
+    dashboardBackgroundHover: '#f8f5f4',
+
 }
 
 export const dark = {

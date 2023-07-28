@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom';
 import styled, { css } from "styled-components";
 
 const Container = styled.div`
@@ -29,7 +30,8 @@ const Container = styled.div`
 function Navbar() {
     return (
         <Container>
-            <img className="logo" alt="logo" src="/images/logo.png" />
+            <Link to="/"><img className="logo" alt="logo" src="/images/logo.png" /></Link>
+
 
 
         </Container>

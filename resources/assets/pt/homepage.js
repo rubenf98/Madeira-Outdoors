@@ -1,9 +1,9 @@
 export const text = {
     button: "reservar atividade",
     activities: [
-        { id: 1, name: "Experience voadora" },
-        { id: 2, name: "Expedição terrestre" },
-        { id: 3, name: "Aventura marinha" }
+        { id: 1, name: "Experience voadora", to: "/category/flying" },
+        { id: 2, name: "Expedição terrestre", to: "/category/land" },
+        { id: 3, name: "Aventura marinha", to: "/category/marine" }
     ],
 
 } 

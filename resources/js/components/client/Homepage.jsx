@@ -6,6 +6,7 @@ import { fetchBlockDates } from '../../redux/blockDate/actions';
 import Navbar from './common/Navbar';
 import Menu from './common/Menu';
 import { borderRadius, dimensions } from '../../helper';
+import { useNavigate } from 'react-router-dom';
 
 const Container = styled.section`
     width: 100%;
@@ -119,6 +120,7 @@ const images = ["/images/homepage/flying.jpg", "/images/homepage/land.jpg", "/im
 function Homepage(props) {
     const { text } = require('../../../assets/' + props.language + "/homepage");
     const [active, setActive] = useState(1)
+    let navigate = useNavigate();
 
     return (
         <Container>
@@ -131,6 +133,7 @@ function Homepage(props) {
                 {text.activities.map((activity, index) => (
                     <Activity
                         onMouseEnter={() => setActive(activity.id)}
+                        onClick={() => navigate(activity.to)}
                         active={active == activity.id ? 1 : 0}
                         key={activity.id}
                     >

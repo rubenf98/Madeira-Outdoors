@@ -106,13 +106,10 @@ const Url = styled(Link)`
 `;
 
 function DrawerContainer(props) {
-    const { currentId, drawerState, data, card } = props;
-    const [hasClickedCard, setHasClickedCard] = useState(false)
+    const { currentId, drawerState, data } = props;
 
     useEffect(() => {
         if (currentId && drawerState) {
-            setHasClickedCard(false);
-            props.setCard({});
             props.fetchReservation(currentId);
         }
     }, [currentId, drawerState])
@@ -120,136 +117,75 @@ function DrawerContainer(props) {
 
     const FieldContainer = ({ name, value, width }) => (
         <Field className='field-width' width={width}>
-            <p>
-                <span className='name'>{name}:</span> <span className='value'>{value}</span>
-            </p>
-
+            <p><span className='name'>{name}:</span> <span className='value'>{value}</span></p>
         </Field>
     )
-
-    const handleGetCard = (id) => {
-        props.getCard(id);
-        setHasClickedCard(true);
-    }
 
 
 
     function EmptyField(field) {
         return field ? field : "N/A"
     }
-
+    console.log(data);
 
     return (
-        <Drawer destroyOnClose closable={false} width={"60%"} open={drawerState} onClose={() => props.setDrawerState(0)}>
+        <Drawer destroyOnClose closable={false} width={720} open={drawerState} onClose={() => props.setDrawerState(0)}>
             <Row type="flex" dire>
                 <Col xs={24}>
 
                     <Section><h3>Informação geral</h3> <div className='underline' /></Section>
 
-                    <FieldsContainer width="25%">
+                    <FieldsContainer width="50%">
                         <FieldContainer name="Identificador" value={"#" + data.id} />
                         <FieldContainer name="Número de confirmação" value={data.token} />
-                        <FieldContainer width="50%" name="Estado da reserva" value={<Tag color={data.status == "confirmado" ? "success" : data.status == "pendente" ? "warning" : "error"}>{data.status}</Tag>} />
+                        <FieldContainer name="Estado da reserva" value={<Tag color={data.status == "confirmado" ? "success" : data.status == "pendente" ? "warning" : "error"}>{data.status}</Tag>} />
 
                         <FieldContainer name="Data da reserva" value={dayjs(data.created_at).format('DD-MM-YYYY HH:mm')} />
-                        <FieldContainer name="Levantamento" value={dayjs(data.pickup_date).format('DD-MM-YYYY HH:mm')} />
-                        <FieldContainer name="Entrega" value={dayjs(data.return_date).format('DD-MM-YYYY HH:mm')} />
-                        <FieldContainer name="Número de dias" value={data.days} />
+                        <FieldContainer name="Data da atividade" value={dayjs(data.date).format('DD-MM-YYYY HH:mm')} />
+                        <FieldContainer name="Estado atual" value={data.status} />
 
-                        <FieldContainer name="Estado atual" value={data.current_status} />
                         <FieldContainer name="Método de pagamento" value={EmptyField(data.payment_method)} />
-
 
                         <Field className='field-width' >
                             <p>
-                                <span className='name'>Viatura:</span> <span className='value'>{data.car?.category?.title + " (" + data.car?.registration + ")"}</span> <Url to={"/painel/carros/" + data.car?.id}><img src='/icon/dashboard/link.svg' /></Url>
+                                <span className='name'>Atividiade:</span> <span className='value'>{data.activity?.name?.pt}</span> <Url to={"/painel/atividades/" + data.activity?.id}><img src='/icon/dashboard/link.svg' /></Url>
                             </p>
 
                         </Field>
 
 
                         <FieldContainer name="Pagamento" value={<Tag color={data.payed_at ? "success" : "warning"}>{data.payed_at ? "Pago" : "Pendente"}</Tag>} />
-                        <FieldContainer name="Seguro" value={data?.insurance?.name?.pt} />
+                        <FieldContainer name="Total" value={data.price + "€"} />
 
                         <FieldContainer width="100%" name="Notas" value={EmptyField(data.notes)} />
 
                     </FieldsContainer>
                 </Col>
-                <Col xs={12}>
-                    <Section><h3>Preçário</h3> <div className='underline' /></Section>
-                    <FieldsContainer width="50%">
-                        <FieldContainer name="Valor aluguer" value={data.car_price + "€"} />
-                        <FieldContainer name="Preço unitário" value={data.car_price_per_day + "€"} />
-                        <FieldContainer name="Valor extras/seguro" value={(Math.round((data.price - data.car_price) * 100 + Number.EPSILON) / 100) + "€"} />
-                        <FieldContainer name="Total" value={data.price + "€"} />
-                    </FieldsContainer>
-                </Col>
 
                 <Col xs={24}>
                     <Section><h3>Cliente <Url to={"/painel/clientes/" + data.client?.id}><img src='/icon/dashboard/link.svg' /></Url></h3> <div className='underline' /></Section>
-                    <FieldsContainer width="25%">
+                    <FieldsContainer width="50%">
                         <FieldContainer name="Nome" value={data.client?.name} />
                         <FieldContainer name="Telefone" value={data.client?.phone} />
-                        <FieldContainer name="Email" value={data.client?.email} />
 
+                        <FieldContainer name="Email" value={data.client?.email} />
                         <FieldContainer name="ID/Passporte" value={EmptyField(data.client?.cc)} />
+
                         <FieldContainer name="País" value={EmptyField(data.client?.country)} />
                     </FieldsContainer>
                 </Col>
 
-                {/* <Col span={24}>
-                    <Section><h3>Condutor(es)</h3> <div className='underline' /></Section>
-                    <Row type="flex" dire>
 
-                        {data.drivers && data.drivers.map((driver, index) => (
-                            <Col key={"driver-" + index} span={12}>
-                                <h2>{index == 0 ? "Principal" : "Adicional"}</h2>
-                                <FieldsContainer width="50%">
-                                    <FieldContainer name="Nome" value={EmptyField(driver.name)} />
-                                    <FieldContainer name="Data de nascimento" value={EmptyField(driver.birthday)} />
-                                    <FieldContainer name="Número carta de condução" value={EmptyField(driver.license)} />
-                                </FieldsContainer>
-                            </Col>
-                        ))}
-                    </Row>
-                </Col> */}
 
-                <Col style={{ marginBottom: "50px" }} span={24}>
-                    <Section><h3>Extras e/ou taxas</h3> <div className='underline' /></Section>
-                    {data.extras && data.extras.length ?
-                        <ul>
-                            {data.extras.map((extra, index) => (
-                                <li key={"extra-" + index} >
-                                    {extra.name.pt}
-                                </li>
-                            ))}
-                        </ul>
-                        : <p>N/A</p>
-                    }
-                </Col>
 
-                {/* {(hasClickedCard && card.number) &&
-                    <Col xs={24}>
-                        <Section>Cartão</Section>
-                        <FieldsContainer width="25%">
-                            <FieldContainer name="Nº cartão" value={card.number} />
-                            <FieldContainer name="Validade" value={card.validity} />
-                            <FieldContainer name="CVV" value={card.cvv} />
-                        </FieldsContainer>
-                    </Col>
-                } */}
 
                 <ButtonContainer>
 
-                    {hasClickedCard ?
-                        <Input.Search size="large" style={{ maxWidth: "350px" }} onSearch={(e) => props.fetchCard(e)} placeholder="PIN" />
-                        : <SecundaryButton><Download primary={false} onClick={() => handleGetCard(data.card_id)}><p>Obter dados do cartão</p></Download></SecundaryButton>
-                    }
 
                     <Row type="flex" justify='end' gutter={16}>
-                        <SecundaryButton>
+                        {/* <SecundaryButton>
                             <Download primary={false} onClick={() => props.downloadContract(data.token)}><p>Contrato</p></Download>
-                        </SecundaryButton>
+                        </SecundaryButton> */}
                         <PrimaryButton>
                             <Download primary={true} onClick={() => props.downloadInvoice(data.token)}><p>Resumo</p></Download>
                         </PrimaryButton>
