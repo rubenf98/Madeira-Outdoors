@@ -15,7 +15,7 @@ class CreateAvailabilityHoursTable extends Migration
     {
         Schema::create('availability_hours', function (Blueprint $table) {
             $table->id();
-            $table->integer('hour');
+            $table->string('hour');
             $table->unsignedBigInteger('activity_id');
             $table->timestamps();
 

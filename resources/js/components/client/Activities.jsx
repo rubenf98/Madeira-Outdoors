@@ -19,7 +19,7 @@ const ActivityList = styled.section`
         width: 33%;
         padding: 20px;
         box-sizing: border-box;
-
+        text-decoration: none;
         img {
             width: 100%;
         }
@@ -30,10 +30,10 @@ const ActivityList = styled.section`
         justify-content: space-between;
         align-items: center;
         gap: 10px;
+        color: black;
 
         .title {
             flex: 1;
-            
 
             h3 {
                 margin: 0px;
@@ -49,6 +49,7 @@ const ActivityList = styled.section`
             font-size: clamp(30px, 3.5vw, 50px);
             font-weight: bold;
             margin: 0px;
+            text-decoration: none;
         }
     }
 `;
@@ -62,16 +63,18 @@ const PageSelector = styled(Pagination)`
 function Activities(props) {
     const [filters, setFilters] = useState({})
     const { category } = useParams();
-
+    const { text } = require('../../../assets/' + props.language + "/activities");
 
     useEffect(() => {
-        console.log(category);
         setFilters({ ...filters, category: category });
     }, [category])
 
 
     useEffect(() => {
-        props.fetchActivities(filters);
+        if (Object.values(filters).length) {
+            props.fetchActivities(filters.page, filters);
+        }
+
     }, [filters])
 
     const handlePageChange = (e) => {
@@ -81,7 +84,7 @@ function Activities(props) {
 
     return (
         <div>
-            <Header />
+            <Header text={text[filters.category]} />
 
             <ActivityList>
                 {props.activities.map((aActivity) => (
@@ -112,7 +115,7 @@ function Activities(props) {
 }
 const mapDispatchToProps = (dispatch) => {
     return {
-        fetchActivities: (filters) => dispatch(fetchActivities(filters)),
+        fetchActivities: (page, filters) => dispatch(fetchActivities(page, filters)),
     };
 };
 

@@ -8,7 +8,9 @@ use App\Models\BlockDate;
 use App\Models\Client;
 use App\Models\LogRecord;
 use App\Models\Reservation;
+use App\QueryFilters\ReservationFilters;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 
 class ReservationController extends Controller
@@ -18,9 +20,9 @@ class ReservationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(ReservationFilters $filters)
     {
-        //
+        return ReservationResource::collection(Reservation::filterBy($filters)->paginate(10));
     }
 
     /**
@@ -38,6 +40,7 @@ class ReservationController extends Controller
         $reservation = Reservation::create([
             'token' => $token,
             'date' => $validator['date'],
+            'participants' => $validator['participants'],
             'payment_method' => $validator['payment_method'] == 1 ? "Cartão de crédito" : "Pagamento no levantamento",
             'price' => $validator['price'],
             'activity_id' => $validator['activity_id'],
@@ -50,7 +53,8 @@ class ReservationController extends Controller
             "reservation_id" => $reservation->id
         ]);
         DB::commit();
-        return $reservation;
+
+        return new ReservationResource($reservation);
     }
 
     /**
@@ -71,9 +75,32 @@ class ReservationController extends Controller
      * @param  \App\Models\Reservation  $reservation
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Reservation $reservation)
+    public function update(ReservationRequest $request, Reservation $reservation)
     {
-        //
+        $validator = $request->validated();
+        DB::beginTransaction();
+        $client = Client::find($reservation->client_id);
+        $blockDate = BlockDate::where('reservation_id', $reservation->id)->first();
+
+        $client->update([
+            'name' => $validator['name'],
+            'cc' => Arr::get($validator, 'cc'),
+            'nif' => Arr::get($validator, 'nif'),
+            'country' => Arr::get($validator, 'country'),
+            'email' => $validator['email'],
+            'phone' => $validator['phone'],
+            'notes' => Arr::get($validator, 'client_notes'),
+        ]);
+        $reservation->update($validator);
+
+        $blockDate->update([
+            "date" => $validator['date'],
+            "activity_id" => $validator['activity_id'],
+            "reservation_id" => $reservation->id
+        ]);
+        DB::commit();
+
+        return new ReservationResource($reservation);
     }
 
     /**

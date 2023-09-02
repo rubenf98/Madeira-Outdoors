@@ -15,8 +15,11 @@ class CreatePartnersTable extends Migration
     {
         Schema::create('partners', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger("user_id")->nullable();
             $table->string('name');
             $table->timestamps();
+
+            $table->foreign("user_id")->references("id")->on("users")->onDelete("set null");
         });
     }
 

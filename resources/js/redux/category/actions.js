@@ -1,9 +1,17 @@
 import { types } from "./types";
 import axios from "axios";
+import queryString from "query-string";
 
 export const fetchCategories = () => ({
     type: types.FETCH_CATEGORIES,
     payload: axios.get(`${window.location.origin}/api/categories`)
+})
+
+export const fetchCategorySelector = (filters = {}) => ({
+    type: types.FETCH_CATEGORY_SELECTOR,
+    payload: axios.get(`${window.location.origin}/api/selector/categories?${queryString.stringify(filters, {
+        arrayFormat: "index"
+    })}`)
 })
 
 export const fetchCategory = (id) => ({

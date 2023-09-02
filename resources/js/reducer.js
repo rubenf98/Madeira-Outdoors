@@ -9,6 +9,7 @@ import reservation from './redux/reservation'
 import category from './redux/category'
 import activity from './redux/activity'
 import blockDate from './redux/blockDate'
+import blockPeriod from './redux/blockPeriod'
 
 const reducer = combineReducers({
     auth,
@@ -18,7 +19,8 @@ const reducer = combineReducers({
     reservation,
     category,
     activity,
-    blockDate
+    blockDate,
+    blockPeriod
 })
 
 export default reducer

@@ -7,5 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class ActivityImage extends Model
 {
+    protected $fillable = ['path', 'activity_id'];
     use HasFactory;
 }

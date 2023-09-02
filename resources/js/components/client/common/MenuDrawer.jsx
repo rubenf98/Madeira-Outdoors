@@ -170,7 +170,6 @@ function MenuDrawer(props) {
                         <div className='pages'>
                             <Link to={text.links[3].to}>{text.links[3].name}</Link>
                             <Link to={text.links[4].to}>{text.links[4].name}</Link>
-                            <Link to={text.links[5].to}>{text.links[5].name}</Link>
                         </div>
                     </LinksContainer>
                     <Social>

@@ -20,6 +20,7 @@ class CreateReservationsTable extends Migration
             $table->string('token')->unique();
             $table->string('payment_method')->nullable();
             $table->datetime('date');
+            $table->integer('participants');
             $table->double('price', 6, 2);
             $table->string('status')->default('pendente');
             $table->text('notes')->nullable();

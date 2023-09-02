@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\CategoryResource;
+use App\Http\Resources\CategorySelectorResource;
 use App\Models\Category;
 use App\QueryFilters\CategoryFilters;
 use Illuminate\Http\Request;
@@ -18,6 +19,12 @@ class CategoryController extends Controller
     {
         return CategoryResource::collection(Category::filterBy($filters)->get());
     }
+
+    public function selector(CategoryFilters $filters)
+    {
+        return CategorySelectorResource::collection(Category::filterBy($filters)->get());
+    }
+
 
     /**
      * Store a newly created resource in storage.

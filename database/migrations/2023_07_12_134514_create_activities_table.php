@@ -21,6 +21,7 @@ class CreateActivitiesTable extends Migration
             $table->string('image');
             $table->string('duration');
             $table->integer('limit')->default(20);
+            $table->boolean('status')->default(true);
             $table->text('description1');
             $table->text('description2');
             $table->text('included');

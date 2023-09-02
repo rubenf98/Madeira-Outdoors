@@ -61,7 +61,7 @@ const Container = styled.div`
     
 `;
 
-function Sidemenu() {
+function Sidemenu({ user }) {
 
     const items = [
         {
@@ -80,29 +80,30 @@ function Sidemenu() {
             key: 'datas',
         },
         {
-            label: <Link to="/painel/atividades"><img className='icon' src="/icon/dashboard/car.svg" /></Link>,
+            label: <Link to="/painel/atividades"><img className='icon' src="/icon/dashboard/activity.svg" /></Link>,
             key: 'carros',
         },
-        {
+        user.admin && {
+
             label: <Link to="/painel/precos">
                 <img className='icon' src="/icon/dashboard/price.svg" />
             </Link>,
             key: 'precos',
         },
-        {
+        user.admin && {
             label:
                 <Link to="/painel/clientes">
                     <img className='icon' src="/icon/dashboard/client.svg" />
                 </Link>,
             key: 'clientes',
         },
-        {
+        user.admin && {
             label: <Link to="/painel/configuracao">
                 <img className='icon' src="/icon/dashboard/config.svg" />
             </Link>,
             key: 'configuracao',
         },
-        {
+        user.admin && {
             label: <Link to="/painel/logs">
                 <img className='icon' src="/icon/dashboard/config.svg" />
             </Link>,

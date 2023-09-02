@@ -5,6 +5,8 @@ namespace App\Http\Requests;
 use App\Models\Activity;
 use Carbon\Carbon;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Http\Exceptions\HttpResponseException;
+use Illuminate\Contracts\Validation\Validator;
 
 class ReservationRequest extends FormRequest
 {
@@ -51,9 +53,15 @@ class ReservationRequest extends FormRequest
             'participants' => 'required|integer',
 
             'notes' => 'nullable|string',
-            'payment_method' => 'nullable|integer',
-
-
+            'payment_method' => 'nullable|string',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'success' => false,
+            'errors' => $validator->errors()
+        ], 422));
     }
 }

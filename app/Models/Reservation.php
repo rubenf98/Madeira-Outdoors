@@ -11,7 +11,7 @@ class Reservation extends Model
 
     protected $fillable = [
         'payment_method', 'activity_id', 'client_id', 'token', 'price',
-        'date', 'notes', 'status'
+        'date', 'notes', 'status', 'participants'
     ];
 
     public function activity()

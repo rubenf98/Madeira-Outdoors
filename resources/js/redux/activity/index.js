@@ -2,6 +2,7 @@ import { types } from "./types";
 
 export const initialState = {
     data: [],
+    selector: [],
     loading: false,
     current: {},
 }
@@ -12,7 +13,9 @@ export default (state = initialState, action = {}) => {
         case `${types.UPDATE_ACTIVITY}_PENDING`:
         case `${types.FETCH_ACTIVITIES}_PENDING`:
         case `${types.FETCH_ACTIVITY}_PENDING`:
+        case `${types.SET_ACTIVITY_STATUS}_PENDING`:
         case `${types.CREATE_ACTIVITY}_PENDING`:
+        case `${types.FETCH_ACTIVITY_SELECTOR}_PENDING`:
             return {
                 ...state,
                 loading: true,
@@ -21,9 +24,18 @@ export default (state = initialState, action = {}) => {
         case `${types.CREATE_ACTIVITY}_REJECTED`:
         case `${types.UPDATE_ACTIVITY}_REJECTED`:
         case `${types.DELETE_ACTIVITY}_REJECTED`:
+        case `${types.SET_ACTIVITY_STATUS}_REJECTED`:
+        case `${types.FETCH_ACTIVITY_SELECTOR}_REJECTED`:
             return {
                 ...state,
                 loading: false,
+            };
+
+        case `${types.FETCH_ACTIVITY_SELECTOR}_FULFILLED`:
+            return {
+                ...state,
+                loading: false,
+                selector: action.payload.data.data,
             };
 
         case `${types.CREATE_ACTIVITY}_FULFILLED`:
@@ -43,6 +55,7 @@ export default (state = initialState, action = {}) => {
             };
 
         case `${types.UPDATE_ACTIVITY}_FULFILLED`:
+        case `${types.SET_ACTIVITY_STATUS}_FULFILLED`:
             return {
                 ...state,
                 loading: false,

@@ -16,12 +16,12 @@ const Container = styled.div`
 `;
 
 function Dashboard(props) {
-
+    console.log(props.user)
 
 
     return (
         <Container>
-            <Sidemenu />
+            <Sidemenu user={props.user} />
             <div className="dashboard-content"> {props.children} </div>
         </Container>
     )
@@ -35,6 +35,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
+        user: state.auth.currentUser,
         loading: state.reservation.loading,
         data: state.reservation.relevantData
     };

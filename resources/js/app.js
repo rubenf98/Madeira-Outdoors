@@ -7,7 +7,7 @@ import thunk from 'redux-thunk'
 import promise from 'redux-promise-middleware'
 import { Provider } from 'react-redux'
 import jwtDecode from "jwt-decode";
-import { loginSuccess, refreshAuthorizationToken, setAuthorizationToken } from './redux/auth/actions';
+import { loginSuccess, me, refreshAuthorizationToken, setAuthorizationToken } from './redux/auth/actions';
 const container = document.getElementById('index');
 const root = createRoot(container);
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -33,7 +33,9 @@ if (localStorage.token) {
         store.dispatch(refreshAuthorizationToken(localStorage.token));
     } else {
         store.dispatch(loginSuccess());
+
         setAuthorizationToken(localStorage.token);
+        store.dispatch(me());
     }
 }
 

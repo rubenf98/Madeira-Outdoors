@@ -4,6 +4,7 @@ export const initialState = {
     data: [],
     loading: false,
     current: {},
+    selector: [],
 }
 
 export default (state = initialState, action = {}) => {
@@ -13,6 +14,7 @@ export default (state = initialState, action = {}) => {
         case `${types.FETCH_CATEGORIES}_PENDING`:
         case `${types.FETCH_CATEGORY}_PENDING`:
         case `${types.CREATE_CATEGORY}_PENDING`:
+        case `${types.FETCH_CATEGORY_SELECTOR}_PENDING`:
             return {
                 ...state,
                 loading: true,
@@ -21,6 +23,7 @@ export default (state = initialState, action = {}) => {
         case `${types.CREATE_CATEGORY}_REJECTED`:
         case `${types.UPDATE_CATEGORY}_REJECTED`:
         case `${types.DELETE_CATEGORY}_REJECTED`:
+        case `${types.FETCH_CATEGORY_SELECTOR}_REJECTED`:
             return {
                 ...state,
                 loading: false,
@@ -40,6 +43,13 @@ export default (state = initialState, action = {}) => {
                 data: state.data.filter(
                     record => record.id !== action.meta.id
                 )
+            };
+
+        case `${types.FETCH_CATEGORY_SELECTOR}_FULFILLED`:
+            return {
+                ...state,
+                loading: false,
+                selector: action.payload.data.data,
             };
 
         case `${types.UPDATE_CATEGORY}_FULFILLED`:

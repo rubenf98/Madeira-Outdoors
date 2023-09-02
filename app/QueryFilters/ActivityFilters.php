@@ -16,4 +16,16 @@ class ActivityFilters extends QueryFilters
             $movies->where('name', 'like', '%' .  $string . '%');
         });
     }
+
+    public function name($string)
+    {
+        $this->query->where('name', 'like', '%' .  $string . '%');
+    }
+
+    public function partner($partner)
+    {
+        $this->query->whereHas('partners', function ($q) use ($partner) {
+            $q->where('partner.id', $partner);
+        });
+    }
 }

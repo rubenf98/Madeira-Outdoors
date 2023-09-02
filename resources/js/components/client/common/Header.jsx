@@ -44,11 +44,11 @@ const Background = styled.img`
     filter: brightness(.7);
 `;
 
-function Header() {
+function Header({ text }) {
     return (
         <Container>
             <div>
-                <h1>flying experiences</h1>
+                <h1>{text}</h1>
                 <Background src="/images/homepage/wallpaper_1920.jpg" />
 
                 <Navbar />
